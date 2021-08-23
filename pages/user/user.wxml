@@ -1,0 +1,92 @@
+<import src="/pages/template/template.wxml"/>
+<view class="container">
+  <view class="item item-lg margintop15">
+    <!-- <view class="item-icon-circle icon-lg">
+        <image mode="aspectFit" src="{{userInfo.avatarUrl}}"></image>
+    </view> -->
+    <block wx:if="{{!hasUserInfo && canIUse}}">
+      <button  bindtap="getUserProfile"> 获取头像昵称 </button>
+      <!-- <button wx:else open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称2 </button> -->
+    </block>
+    <block wx:else>
+      <view class="item-icon-circle icon-lg">
+        <image bindtap="bindViewTap" mode="aspectFit" src="{{userInfo.avatarUrl}}"></image>
+      </view>
+      <text class="item-name ">{{userInfo.nickName}}</text>
+    </block>
+    <!-- <view class="item-power-small">
+        <text class="iconfont icon-right font-lg"></text>
+    </view> -->
+  </view>
+  <view class="item margintop15">
+    <view class="item-icon">
+        <text class="iconfont icon-network1 icon-blue"></text>
+    </view>
+    <view class="item-name item-bettwen">
+        <text>网络</text>
+        <text>{{wifiName}}</text>
+    </view>
+    <view class="item-power-small">
+    </view>
+  </view>
+  <view catchtap="showSetting" class="item margintop15">
+    <view  class="item-icon">
+        <text class="iconfont icon-association icon-green"></text>
+    </view>
+    <view class="item-name">
+        <text>配置</text>
+        <text class="desc">配置智能家居设备</text>
+    </view>
+    <view class="item-power-small">
+      <text class="iconfont icon-right font-lg"></text>
+    </view>
+  </view>
+  <view catchtap="showPosition" class="item">
+    <view class="item-icon">
+        <text class="iconfont icon-radar icon-green"></text>
+    </view>
+    <view class="item-name">
+        <text>全部删除</text>
+    </view>
+    <view class="item-power-small">
+      <text class="iconfont icon-right font-lg"></text>
+    </view>
+  </view>
+  <view catchtap='showTopology' class="item margintop15">
+    <view class="item-icon">
+        <text class="iconfont icon-tree icon-blue"></text>
+    </view>
+    <view class="item-name">
+        <text>网络拓扑</text>
+    </view>
+    <view class="item-power-small">
+      <text class="iconfont icon-right font-lg"></text>
+    </view>
+  </view>
+  <view catchtap='showProblem' class="item">
+  <button hidden='{{isAuthorization}}' class='authorization' type='primary' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+  </button>
+    <view class="item-icon">
+        <text class="iconfont icon-feedback icon-blue"></text>
+    </view>
+    <view class="item-name">
+        <text>意见反馈</text>
+    </view>
+    <view class="item-power-small">
+      <text class="iconfont icon-right font-lg"></text>
+    </view>
+  </view>
+  <!-- <view class="item">
+    <view class="item-icon">
+        <text class="iconfont icon-problem icon-blue"></text>
+    </view>
+    <view class="item-name">
+        <text>关于我们</text>
+    </view>
+    <view class="item-power-small">
+      <text class="iconfont icon-right font-lg"></text>
+    </view>
+  </view> -->
+</view>
+
+<template is="footer"  data="{{text: 'user'}}"/>

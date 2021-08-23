@@ -1,0 +1,37 @@
+<!--pages/setPosition/setPosition.wxml-->
+<view class="container">
+  <view class="pair">
+    <view class="pair-title">遥控器类型</view>
+    <view class="pair-input">
+      <!-- <input bindinput='bindViewkind' class='form-control' value="{{position}}"></input> -->
+      <text>{{kind}}</text>
+    </view>
+  </view>
+  <view class="pair">
+    <view class="pair-title">遥控器名称</view>
+    <view class="pair-input">
+      <input bindinput='bindNameFloor'  class='form-control' value="{{name}}"></input>
+    </view>
+    <!--  <view class="pair-icon">
+      <picker bindchange="bindAreaChange" value="{{areaIndex}}" range="{{areaArray}}">
+        <text class="iconfont icon-down"></text>
+      </picker> 
+    </view> -->
+  </view>
+  <view class="pair">
+    <view class="pair-title">按键</view>
+  </view>
+  <view class="multicolor">
+    <view class="color-wrapper">
+      <view bindtap='setkey' data-index="{{index}}" class="color-info" wx:for="{{list}}" wx:key="*this">
+        <view class="color-round" style="background: {{item.color}}">
+          <text hidden="{{colorIndex != index}}" class="iconfont icon-yes font26 activeYes"></text>
+        </view>
+        <text class="textcenter">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+  <view class='btn-wrapper'>
+    <button catchtap='savePosition' class="btn">{{btnTitle}}</button>
+  </view>
+</view>

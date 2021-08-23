@@ -1,0 +1,154 @@
+<import src="/pages/template/template.wxml"/>
+<view class="container">
+  <view class="notice-wrap">
+    <view hidden="{{!isWifiFail}}" class="notice-blue">
+      <text class="iconfont icon-wifi"></text>
+      <text>WiFi不可用</text>
+    </view>
+    <view hidden="{{!showAddDevice}}">
+      <view catchtap='showGuide' class="notice" hidden="{{blueList.length == 0 || isLoading}}">
+        <text class="iconfont icon-notice"></text>
+        <text>发现新设备，请点击添加</text>
+        <text catchtap='hideScan' class="iconfont icon-close notice-close"></text>
+      </view>
+    </view>
+  </view>
+  
+  <view class="input-info">
+    <view class='input-group'>
+      <text class="iconfont icon-search"></text>
+      <input type="search" placeholder-class="input-placeholder" class="form-control search-input" bindinput="bindViewSearch" placeholder="搜索名称或位置"/>
+    </view>
+    <view bindtap="showGuide" class="input-plus">
+      <text class="iconfont icon-plus"></text>
+    </view>
+  </view>
+    <!-- <view hidden='{{isSelect}}' class="content">
+    <view hidden='{{searchList.length == 0}}'>
+      <view data-index="{{index}}" wx:for="{{searchList}}" class="item" bindtap='showInfo' bindlongpress="showOperate" wx:key="{{item.mac}}">
+        <view class="item-img item-bg">
+          <text class="bluetooth-img iconfont {{item.icon}}" style="color: {{item.rgb}}"></text>
+          <text hidden='{{item.mlink_trigger == 0}}' class="item-num"> <text class="iconfont icon-association"></text></text>
+        </view>
+        <view class="item-name" hidden="{{!item.position == ''}}">
+          <text class="text-name">{{item.name}}</text>
+          <text class="text-rssi">{{item.version}}</text>
+        </view>
+        <view class="item-name" hidden="{{item.position == ''}}">
+          <text class="text-name">{{item.position}}</text>
+          <text class="text-rssi">{{item.name}}({{item.version}})</text>
+        </view>
+        <view class="item-power">
+          <view hidden='{{!item.isLight}}' class="switch-wrapper">
+              <text data-index="{{index}}" class="{{!item.active ? 'active' : ''}}" catchtap="closeDevice">OFF</text>
+              <text data-index="{{index}}" class="{{item.active ? 'active' : ''}}" catchtap="openDevice">ON</text>
+          </view>
+        </view>
+      </view>
+    </view> -->
+    <view hidden='{{isSelect}}' class="content">
+    <view hidden='{{searchList.length == 0}}'>
+      <view data-index="{{index}}" wx:for="{{searchList}}" class="item" bindtap='showInfo' bindlongpress="showOperate" wx:key="{{item.mac}}">
+        <view class="item-img item-bg">
+          <text class="iconfont icon-wangguan1 " style="color :{{1==2?'blue': 'grey'}}"></text>
+          <!-- <text hidden='{{item.mlink_trigger == 0}}' class="item-num"> <text class="iconfont icon-association"></text></text> -->
+        </view>
+        <!-- <view class="item-name" hidden="{{!item.position == ''}}">
+          <text class="text-name">{{item.name}}</text>
+          <text class="text-rssi">{{item.version}}</text>
+        </view> -->
+        <view class="item-name" >
+          <text class="text-name">{{item.name}}  {{item.position}} </text>
+          <text class="text-rssi">SN: {{item.sn}}</text>
+        </view>
+        <view class="item-power">
+          <view hidden='{{!item.isLight}}' class="switch-wrapper">
+              <text data-index="{{index}}" class="{{!item.active ? 'active' : ''}}" catchtap="closeDevice">OFF</text>
+              <text data-index="{{index}}" class="{{item.active ? 'active' : ''}}" catchtap="openDevice">ON</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <view hidden='{{!showAddDevice}}' class="add-wrapper">
+      <view class="add-icon-wrapper">
+        <image mode="aspectFit" class="add-image" src="../../images/light-logo.png"></image>
+        <view class="add-line">智能家居网络管控系统小程序</view>
+        <view class="add-line">南京理工大学毕业设计作品</view>
+      </view>
+      <view hidden='{{searchList.length != 0}}' class="add-title" >你尚未绑定网关设备</view>
+      <view  class="add-plus" catchtap="showGuide">
+          添加网关设备
+      </view>
+    </view>
+  </view>
+  
+</view>
+<view hidden="{{hiddenModal}}">
+  <template is="editInfo"  data="{{...modelData}}"/>
+</view>
+<view hidden="{{!isGuide}}">
+  <template is="guide" data="{{...guideData}}"/>
+</view>
+<view hidden="{{!isCommand}}">
+  <template is="command" data="{{...commandData}}"/>
+</view>
+<view hidden="{{!isShowBlueFail}}">
+  <template is="bluetooth"/>
+</view>
+<view hidden="{{deviceList.length == 0}}">
+  <view class="operate-wrapper  {{blueList.length == 0 ? 'moves-enter-active' : 'moves-enter'}}">
+      <view catchtap='hideScan' class="mask"></view>
+      <view class="con-device-content">
+          <view class="scan-title">扫描到<text class="scan-num">{{blueList.length}}</text>个设备
+              <text catchtap='hideScan' class="iconfont icon-close iconclose"></text></view>
+          <view class="con-device">
+              <image class="fa-pulse" src="../../images/light.jpg"/>
+          </view>
+          <button catchtap="joinMesh" type="submit" class="btn">加入网络</button>
+          <view catchtap='selectMesh' class="select-join">选择加入</view>
+      </view>
+  </view>
+</view>
+<view>
+  <view class="operate-wrapper  {{isOperate ? 'moves-enter-active' : 'moves-enter'}}">
+    <view bindtap='hideOperate' class="mask"></view>
+    <view class="operate-info">
+      <view class="operate-name">
+        <view class="operate-icon-wrapper"><text class="bluetooth-img iconfont {{deviceInfo.icon}} operate-icon" style="color: {{deviceInfo.rgb}}"></text>{{deviceInfo.name}}</view>
+        <view class="item-power">
+          <view  hidden='{{!deviceInfo.isLight}}' class="switch-wrapper">
+                  <text data-index="{{deviceIndex}}" class="{{!deviceInfo.active ? 'active' : ''}}" catchtap="closeDevice">OFF</text>
+                  <text data-index="{{deviceIndex}}" class="{{deviceInfo.active ? 'active' : ''}}" catchtap="openDevice">ON</text>
+          </view>
+        </view>
+      </view>
+      <view catchtap='editName' class="operate-item">
+        <view>编辑名称</view>
+      </view>
+      <view catchtap='delDevice' class="operate-item">
+        <view class='icon-orange'>删除设备</view>
+      </view>
+      <view catchtap='aboutDevice' class="operate-item">
+        <view>关于设备</view>
+      </view>
+      <view catchtap='showOTA' class="operate-item">
+        <view>固件升级</view>
+      </view>
+      <view catchtap='showPosition' class="operate-item">
+        <view>位置信息</view>
+      </view>
+      <view catchtap='automation' class="operate-item">
+        <view>设备关联</view>
+      </view>
+      <view catchtap='showCommand' class="operate-item">
+        <view>发送命令</view>
+      </view>
+      <view catchtap='hideOperate' class="operate-item margintop15">
+        <view>取消</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<template is="footer"  data="{{text: 'index'}}"/>

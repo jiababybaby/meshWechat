@@ -1,0 +1,50 @@
+<!--pages/setPosition/setPosition.wxml-->
+<view class="container">
+  <view class="pair">
+    <view class="pair-title">组网密码</view>
+    <view class="pair-input">
+      <input bindinput='bindMeshId' class='form-control' value="{{mesh_id}}"></input>
+    </view>
+    <view hidden='{{flag==0}}' class="pair-icon">
+      <text catchtap="qrCode" class="iconfont icon-QRCode"></text>
+    </view>
+  </view>
+
+  <view class="pair">
+    <view class="pair-title">组网信道</view>
+    <view class="pair-input">
+      <input bindinput='bindMeshChannel' class='form-control' value="{{mesh_channel}}"></input>
+    </view>
+    <view class="pair-icon">
+    </view>
+  </view>
+  
+      <picker bindchange="bindMode" value="{{index}}" range="{{array}}">
+        <view class="pair">
+    <view class="pair-title">工作模式</view>
+    <view class="pair-input">
+          {{array[index]}}  
+        </view>
+  </view>   
+      </picker>
+  <view hidden='{{flag!=0}}'  class="pair">
+    <view   class="pair-title">中转路由</view>
+    <view class="pair-input">
+      <input bindinput='bindSSID' class='form-control' value="{{ssid}}"></input>
+    </view>
+    <view class="pair-icon">
+    </view>
+  </view>
+  <view  hidden='{{flag!=0}}'  class="pair">
+    <view class="pair-title">中转密码</view>
+    <view class="pair-input">
+      <input bindinput='bindPwd' class='form-control' value="{{pwd}}"></input>
+    </view>
+    <view class="pair-icon">
+    </view>
+  </view>
+    
+  <view class='btn-wrapper'>
+    <button catchtap='savePosition' class="btn">{{btnTitle}}</button>
+  </view>
+</view>
